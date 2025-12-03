@@ -35,8 +35,8 @@ class Safe():
         return (self.dial_position, passes)
 
 def main():
-#    f = open("data/test-01.txt", "r")
-    f = open("data/input-01a.txt", "r")
+    f = open("data/test-01.txt", "r")
+#    f = open("data/input-01a.txt", "r")
     lines = f.read().splitlines()
     f.close()
     safe = Safe()
