@@ -13,7 +13,7 @@ def parse_input(filename):
     return None
 
 def main():
-    input = parse_input("test-XX.txt")
+    input = parse_input("data/test-XX.txt")
     print(input)
 
 if __name__ == '__main__':

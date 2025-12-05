@@ -1,0 +1,79 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+class Matrix:
+
+    UP = (0, -1)
+    DOWN = (0, 1)
+    RIGHT = (1, 0)
+    LEFT = (-1, 0)
+    L_UP = (-1,-1)
+    L_DOWN = (-1, 1)
+    R_UP = (1,-1)
+    R_DOWN = (1, 1)
+
+    def __init__(self, matrix, x_pos=0, y_pos=0, direction=UP):
+        self.matrix = matrix
+        self.position = (x_pos, y_pos)
+        self.direction = direction
+        self.width = len(matrix[0])
+        self.height = len(matrix)
+
+    @classmethod
+    def from_inputfile(cls, inputfile):
+        matrix = []
+        with open(inputfile) as f:
+            for line in f.readlines():
+                matrix.append([char for char in line.strip()])
+        return cls(matrix)
+
+    def visualize(self):
+        # Convert symbols to numeric values for visualization
+        unique_symbols = list(set(symbol for row in self.matrix for symbol in row))
+        symbol_to_num = {symbol: i for i, symbol in enumerate(unique_symbols)}
+        
+        numeric_matrix = [[symbol_to_num[symbol] for symbol in row] for row in self.matrix]
+        
+        plt.figure(figsize=(10, 10))
+        im = plt.imshow(np.array(numeric_matrix))
+                
+        plt.show()
+    
+    def __str__(self):
+        return str(self.matrix)
+        
+    def set_direction(self, direction):
+        self.direction = direction
+
+    def is_out_of_bounds(self, position):
+        return position[0] < 0 or position[0] >= self.width or position[1] < 0 or position[1] >= self.height
+    
+    def get(self, x, y):
+        return self.matrix[y][x]
+    
+    def set(self, x, y, value):
+        self.matrix[y][x] = value
+
+    def get_neighbors(self, x, y, include_diagonals=False):
+        neighbors = []
+        directions = [self.UP, self.DOWN, self.RIGHT, self.LEFT]
+        if include_diagonals:
+            directions.extend([self.L_DOWN, self.L_UP, self.R_DOWN, self.R_UP])
+        for direction in directions:
+            neighbor = (x + direction[0], y + direction[1])
+            if not self.is_out_of_bounds(neighbor):
+                neighbors.append(neighbor)
+        return neighbors
+
+    def move(self, direction, steps=1):
+        '''
+        move into one of the available directions UP, DOWN, RIGHT, LEFT.
+        return the new position if in bounds, (-1, -1) if the chosen direction is out of bounds
+        '''
+        new_position = (self.position[0] + direction[0]*steps, self.position[1] + direction[1]*steps)
+        if self.is_out_of_bounds(new_position):
+            return (-1, -1)
+        else:
+            self.position = new_position
+            return (new_position)
