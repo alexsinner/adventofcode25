@@ -5,7 +5,6 @@ Day 6: trash compactor: https://adventofcode.com/2025/day/6
 Author: Alex Sinner <alex@sinner.lu>
 Date: 2025-12-06
 '''
-from matrix import Matrix
 import math
 
 def parse_input(filename):
@@ -16,7 +15,8 @@ def parse_input(filename):
     return problems
 
 def main():
-    input = parse_input("data/input-06.txt")
+#    input = parse_input("data/input-06.txt")
+    input = parse_input("data/test-06.txt")
     grand_total = 0
     for col in range(len(input[0])):
         values = [int(input[x][col]) for x in range(len(input)-1)]

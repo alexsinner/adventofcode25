@@ -5,7 +5,6 @@ Day 6: trash compactor: https://adventofcode.com/2025/day/6
 Author: Alex Sinner <alex@sinner.lu>
 Date: 2025-12-06
 '''
-from matrix import Matrix
 import math
 
 def parse_input(filename):
